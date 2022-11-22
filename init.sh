@@ -16,5 +16,6 @@ cd Python-3.7.5
 make && make install
 ln -s /usr/local/python3/bin/python3 /usr/local/bin/python3.7
 ln -s /usr/local/python3/bin/pip3 /usr/local/bin/pip3.7
-python3 -V
-pip3 -V
+python3.7 -V
+pip3.7 -V
+pip3.7 install redis tornado requests environs
