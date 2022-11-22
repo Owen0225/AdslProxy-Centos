@@ -22,13 +22,20 @@ class Sender():
         :param ifname: 网卡名称
         :return:
         """
-        (status, output) = subprocess.getstatusoutput('ifconfig')
-        if status == 0:
-            pattern = re.compile(ifname + '.*?inet.*?(\d+\.\d+\.\d+\.\d+).*?Mask', re.S)
-            result = re.search(pattern, output)
-            if result:
-                ip = result.group(1)
-                return ip
+        # (status, output) = subprocess.getstatusoutput('ifconfig')
+        # if status == 0:
+        #     pattern = re.compile(ifname + '.*?inet.*?(\d+\.\d+\.\d+\.\d+).*?Mask', re.S)
+        #     result = re.search(pattern, output)
+        #     if result:
+        #         ip = result.group(1)
+        #         return ip
+        try:
+            response = requests.get('http://ifconfig.me/ip', timeout=1)
+            if response.status_code == 200:
+                return response.text.strip()
+        except:
+            return ''
+
 
     def test_proxy(self, proxy):
         """
@@ -90,6 +97,7 @@ class Sender():
                     print('Now IP', ip)
                     print('Testing Proxy, Please Wait')
                     proxy = '{ip}:{port}'.format(ip=ip, port=PROXY_PORT)
+                    print('ProxyInfo', proxy)
                     if self.test_proxy(proxy):
                         print('Valid Proxy')
                         self.set_proxy(proxy)
