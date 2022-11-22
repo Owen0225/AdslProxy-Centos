@@ -3,7 +3,7 @@ from environs import Env
 
 env = Env()
 # 拨号间隔
-ADSL_CYCLE = 180
+ADSL_CYCLE = 60
 
 # 拨号出错重试间隔
 ADSL_ERROR_CYCLE = 1

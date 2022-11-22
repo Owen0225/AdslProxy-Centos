@@ -8,6 +8,7 @@ yum -y install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel r
 yum install libffi-devel -y
 systemctl stop firewalld.service
 sed -i "s/Allow 127.0.0.1/#Allow 127.0.0.1/g" /etc/tinyproxy/tinyproxy.conf
+service tinyproxy restart
 cd ~
 wget https://www.python.org/ftp/python/3.7.5/Python-3.7.5.tar.xz
 tar -xvJf  Python-3.7.5.tar.xz
