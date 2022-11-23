@@ -1,5 +1,6 @@
 # coding=utf-8
 from environs import Env
+import platform
 
 env = Env()
 # 拨号间隔
@@ -18,16 +19,16 @@ DEL_TO_GET = 60
 ADSL_BASH = 'pppoe-stop;pppoe-start'
 
 # 代理运行端口
-PROXY_PORT = 8888
+PROXY_PORT = 8877
 
 # 客户端唯一标识
-CLIENT_NAME = env.str('CLIENT_NAME', 'adsl1')
+CLIENT_NAME = platform.node()
 
 # 拨号网卡
 ADSL_IFNAME = 'ppp0'
 
 # Redis数据库IP
-REDIS_HOST = env.str('REDIS_HOST', 'localhost')
+REDIS_HOST = env.str('REDIS_HOST', '45.137.9.197')
 
 # Redis数据库密码, 如无则填None
 REDIS_PASSWORD = env.str('REDIS_PASSWORD', 'Wasd1234')
