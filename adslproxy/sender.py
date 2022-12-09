@@ -3,7 +3,7 @@ import re
 import time
 import requests
 # from requests.exceptions import ConnectionError, ReadTimeout
-from adslproxy.db import RedisClient
+# from adslproxy.db import RedisClient
 from adslproxy.config import *
 import platform
 
@@ -58,8 +58,8 @@ class Sender():
         移除代理
         :return: None
         """
-        self.redis = RedisClient()
-        self.redis.remove(CLIENT_NAME)
+        # self.redis = RedisClient()
+        # self.redis.remove(CLIENT_NAME)
         print('Successfully Removed Proxy')
 
     def set_proxy(self, proxy):
