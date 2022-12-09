@@ -24,6 +24,7 @@ class RedisClient(object):
         :return: 设置结果
         """
         return self.db.hset(self.proxy_key, name, proxy)
+
     
     def get(self, name):
         """

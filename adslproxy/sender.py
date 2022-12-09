@@ -68,8 +68,11 @@ class Sender():
         :param proxy: 代理
         :return: None
         """
-        self.redis = RedisClient()
-        if self.redis.set(CLIENT_NAME, proxy):
+        # self.redis = RedisClient()
+        # if self.redis.set(CLIENT_NAME, proxy):
+        #     print('Successfully Set Proxy', proxy)
+        response = requests.get('http://43.135.87.43:8899/Put?ip='+proxy, timeout=60)
+        if response.status_code == 200:
             print('Successfully Set Proxy', proxy)
 
     def adsl(self):
@@ -79,16 +82,7 @@ class Sender():
         """
         while True:
             print('ADSL Start, Remove Proxy, Please wait')
-            try:
-                self.remove_proxy()
-                time.sleep(DEL_TO_GET)
-            except:
-                while True:
-                    (status, output) = subprocess.getstatusoutput(ADSL_BASH)
-                    if status == 0:
-                        self.remove_proxy()
-                        time.sleep(DEL_TO_GET)
-                        break
+            time.sleep(DEL_TO_GET)
             (status, output) = subprocess.getstatusoutput(ADSL_BASH)
             if status == 0:
                 print('ADSL Successfully')
