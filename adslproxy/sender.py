@@ -53,8 +53,7 @@ class Sender():
         """
         try:
             response = httpx.get(TEST_URL, proxies={
-                'http://': 'http://' + proxy,
-                'https://': 'https://' + proxy
+                'all://': 'http://' + proxy
             }, timeout=TEST_TIMEOUT)
             if response.status_code == 200:
                 return True
@@ -102,7 +101,7 @@ class Sender():
                 logging.debug('ADSL Successfully')
                 ip = self.get_ip()
                 if ip:
-                    logging.debug('Now IP', ip)
+                    # logging.info('Now IP', ip)
                     logging.debug('Testing Proxy, Please Wait')
                     proxy = '{ip}:{port}'.format(ip=ip, port=PROXY_PORT)
                     logging.debug('ProxyInfo', proxy)
