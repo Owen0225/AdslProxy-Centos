@@ -6,6 +6,8 @@ import requests
 # from adslproxy.db import RedisClient
 from adslproxy.config import *
 import platform
+import logging
+import os
 
 if platform.python_version().startswith('2.'):
     import commands as subprocess
@@ -13,7 +15,12 @@ elif platform.python_version().startswith('3.'):
     import subprocess
 else:
     raise ValueError('python version must be 2 or 3')
-
+logging.basicConfig(
+        level=logging.DEBUG,  # 定义输出到文件的log级别，大于此级别的都被输出
+        format='%(asctime)s  %(filename)s : %(levelname)s  %(message)s',  # 定义输出log的格式
+        datefmt='%Y-%m-%d %A %H:%M:%S',  # 时间
+        filename=os.path.join(os.getcwd(),'log.txt'),  # log文件名
+        filemode='w')
 
 class Sender():
     def get_ip(self, ifname=ADSL_IFNAME):
@@ -60,7 +67,7 @@ class Sender():
         """
         # self.redis = RedisClient()
         # self.redis.remove(CLIENT_NAME)
-        print('Successfully Removed Proxy')
+        logging.debug('Successfully Removed Proxy')
 
     def set_proxy(self, proxy):
         """
@@ -73,7 +80,9 @@ class Sender():
         #     print('Successfully Set Proxy', proxy)
         response = requests.get('http://43.135.87.43:8899/Put?ip='+proxy, timeout=60)
         if response.status_code == 200:
-            print('Successfully Set Proxy', proxy)
+            # print('Successfully Set Proxy', proxy)
+            logging.debug('Successfully Set Proxy')
+
 
     def adsl(self):
         """
@@ -81,29 +90,29 @@ class Sender():
         :return: None
         """
         while True:
-            print('ADSL Start, Remove Proxy, Please wait')
+            logging.debug('ADSL Start, Remove Proxy, Please wait')
             time.sleep(DEL_TO_GET)
             (status, output) = subprocess.getstatusoutput(ADSL_BASH)
             if status == 0:
-                print('ADSL Successfully')
+                logging.debug('ADSL Successfully')
                 ip = self.get_ip()
                 if ip:
-                    print('Now IP', ip)
-                    print('Testing Proxy, Please Wait')
+                    logging.debug('Now IP', ip)
+                    logging.debug('Testing Proxy, Please Wait')
                     proxy = '{ip}:{port}'.format(ip=ip, port=PROXY_PORT)
-                    print('ProxyInfo', proxy)
+                    logging.debug('ProxyInfo', proxy)
                     if self.test_proxy(proxy):
-                        print('Valid Proxy')
+                        logging.debug('Valid Proxy')
                         self.set_proxy(proxy)
-                        print('Sleeping')
+                        logging.debug('Sleeping')
                         time.sleep(ADSL_CYCLE)
                     else:
-                        print('Invalid Proxy')
+                        logging.debug('Invalid Proxy')
                 else:
-                    print('Get IP Failed, Re Dialing')
+                    logging.debug('Get IP Failed, Re Dialing')
                     time.sleep(ADSL_ERROR_CYCLE)
             else:
-                print('ADSL Failed, Please Check')
+                logging.debug('ADSL Failed, Please Check')
                 time.sleep(ADSL_ERROR_CYCLE)
 
 
