@@ -43,7 +43,7 @@ PROXY_KEY = 'adsl'
 TEST_URL = 'http://www.google.com'
 
 # 测试超时时间
-TEST_TIMEOUT = 1
+TEST_TIMEOUT = 5
 
 # API�?�?
 API_PORT = 8000
