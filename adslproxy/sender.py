@@ -101,10 +101,9 @@ class Sender():
                 logging.debug('ADSL Successfully')
                 ip = self.get_ip()
                 if ip:
-                    # logging.info('Now IP', ip)
                     logging.debug('Testing Proxy, Please Wait')
                     proxy = '{ip}:{port}'.format(ip=ip, port=PROXY_PORT)
-                    logging.debug('ProxyInfo', proxy)
+                    logging.debug('ProxyInfo'+proxy)
                     if self.test_proxy(proxy):
                         logging.debug('Valid Proxy')
                         self.set_proxy(proxy)
