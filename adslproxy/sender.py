@@ -1,7 +1,8 @@
 # coding=utf-8
 import re
 import time
-import requests
+# import requests
+import httpx
 # from requests.exceptions import ConnectionError, ReadTimeout
 # from adslproxy.db import RedisClient
 from adslproxy.config import *
@@ -37,7 +38,7 @@ class Sender():
         #         ip = result.group(1)
         #         return ip
         try:
-            response = requests.get('http://ifconfig.me/ip', timeout=1)
+            response = httpx.get('http://ifconfig.me/ip', timeout=5)
             if response.status_code == 200:
                 return response.text.strip()
         except:
@@ -51,7 +52,7 @@ class Sender():
         :return: 测试结果
         """
         try:
-            response = requests.get(TEST_URL, proxies={
+            response = httpx.get(TEST_URL, proxies={
                 'http': 'http://' + proxy,
                 'https': 'https://' + proxy
             }, timeout=TEST_TIMEOUT)
@@ -78,10 +79,14 @@ class Sender():
         # self.redis = RedisClient()
         # if self.redis.set(CLIENT_NAME, proxy):
         #     print('Successfully Set Proxy', proxy)
-        response = requests.get('http://43.135.87.43:8899/Put?ip='+proxy, timeout=60)
+        response = httpx.get('http://43.135.87.43:8899/Put?ip='+proxy, timeout=5)
         if response.status_code == 200:
             # print('Successfully Set Proxy', proxy)
             logging.debug('Successfully Set Proxy')
+            return True
+        else:
+            return False
+
 
 
     def adsl(self):
